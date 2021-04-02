@@ -13,15 +13,16 @@ class InformPayloadPreventor implements PreventionInterface
 
     protected $error;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->inform_model = new InformModel();
+        $this->inform_model = new InformModel($request);
     }
 
     public function prevent()
     {
-        $error = $this->getErrorPrevention()
-        if (! empty($error)) {
+        $error = $this->getErrorPrevention();
+
+        if (is_null($error)) {
             return;
         }
 
@@ -31,18 +32,15 @@ class InformPayloadPreventor implements PreventionInterface
     private function getErrorPrevention()
     {
         if (! $this->hasReporterName()) {
-            $this->error = 'empty_reporter_name';
-            return;
+            return 'empty_reporter_name';
         }
 
         if (! $this->isReporterPhoneNumberMoreThanNineCharacters()) {
-            $this->error = 'phone_number_less_than_nine_characters';
-            return;
+            return 'phone_number_less_than_nine_characters';
         }
 
-        if (! $this->hasReporterEmail()) {
-            $this->error = 'empty_reporter_email';
-            return;
+        if (! $this->isReporterEmailValid()) {
+            return 'invalid_email';
         }
 
         return;
@@ -50,7 +48,8 @@ class InformPayloadPreventor implements PreventionInterface
 
     private function hasReporterName()
     {
-        if (! empty($this->inform_model->getReporterName())) {
+        if (! is_null($this->inform_model->getReporterName()) ||
+            $this->inform_model->getReporterName() != '') {
             return true;
         }
 
@@ -61,21 +60,21 @@ class InformPayloadPreventor implements PreventionInterface
     {
         $this->phone_number = $this->inform_model->getReporterPhoneNumber();
 
-        return $this->isPhoneNumberMoreThanNineCharacters()
+        return $this->isPhoneNumberMoreThanNineCharacters();
     }
 
     private function isPhoneNumberMoreThanNineCharacters()
     {
-        if (strlen($this->phoneNumber) >= 9) {
-            return false;
+        if (strlen($this->phone_number) >= 9) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
-    private function hasReporterEmail()
+    private function isReporterEmailValid()
     {
-        if (! empty($this->inform_model->getReporterEmail())) {
+        if (filter_var($this->inform_model->getReporterEmail(), FILTER_VALIDATE_EMAIL)) {
             return true;
         }
 

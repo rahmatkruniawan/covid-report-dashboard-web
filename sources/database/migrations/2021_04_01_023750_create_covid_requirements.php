@@ -36,6 +36,7 @@ class CreateCovidRequirements extends Migration
     {
         Schema::create('lapor', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('kategori_laporan_id');
             $table->string('nama_pelapor')->nullable();
             $table->string('no_hp_pelapor')->nullable();
             $table->string('email_pelapor')->nullable();

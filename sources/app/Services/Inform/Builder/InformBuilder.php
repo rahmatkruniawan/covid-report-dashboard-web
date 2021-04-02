@@ -12,7 +12,7 @@ class InformBuilder implements InformInterface
 
     public function __construct(Request $request)
     {
-        $this->inform_model = new InformModel();
+        $this->inform_model = new InformModel($request);
     }
 
     public function build()
@@ -23,6 +23,7 @@ class InformBuilder implements InformInterface
 
     public function create()
     {
+        $this->inform_model->setReportCategory($this->inform_model->getReportCategory());
         $this->inform_model->setReporterName($this->inform_model->getReporterName());
         $this->inform_model->setReporterPhoneNumber($this->inform_model->getReporterPhoneNumber());
         $this->inform_model->setReporterEmail($this->inform_model->getReporterEmail());

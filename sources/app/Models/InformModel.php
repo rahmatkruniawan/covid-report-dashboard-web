@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 
 class InformModel extends Model
 {
     protected $table = 'lapor';
+    private $request = [];
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
 
     public function setReporterName(?string $reporterName)
     {
@@ -33,9 +40,14 @@ class InformModel extends Model
         $this->no_hp_terlapor = $reportedPhoneNumber;
     }
 
+    public function setReportCategory($reportCategory)
+    {
+        $this->kategori_laporan_id = $reportCategory;
+    }
+
     public function setReportDescription(?string $reportDescription)
     {
-        $this->deskripsi_laporan = $reportDescription
+        $this->deskripsi_laporan = $reportDescription;
     }
 
     public function setLatitude(?string $latitude)
@@ -85,7 +97,7 @@ class InformModel extends Model
 
     public function getReporterEmail()
     {
-        return $this->request['reporter_email'];
+        return $this->request['email_pelapor'];
     }
 
     public function getReportedName()
@@ -96,6 +108,11 @@ class InformModel extends Model
     public function getReportedPhoneNumber()
     {
         return $this->request['no_hp_terlapor'];
+    }
+
+    public function getReportCategory()
+    {
+        return $this->request['kategori_laporan_id'];
     }
 
     public function getReportDescription()
@@ -111,6 +128,11 @@ class InformModel extends Model
     public function getLongitude()
     {
         return $this->request['longitude'];
+    }
+
+    public function getAddress()
+    {
+        return $this->request['alamat'];
     }
 
     public function getDistricts()
