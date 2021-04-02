@@ -60,7 +60,7 @@ class InformModel extends Model
 
     public function setRegency(?string $regency)
     {
-        $this->regency = $regency;
+        $this->kabupaten = $regency;
     }
 
     public function setProvince(?string $province)
@@ -71,5 +71,65 @@ class InformModel extends Model
     public function setStatus(?string $status)
     {
         $this->status = $status;
+    }
+
+    public function getReporterName()
+    {
+        return $this->request['nama_pelapor'];
+    }
+
+    public function getReporterPhoneNumber()
+    {
+        return $this->request['no_hp_pelapor'];
+    }
+
+    public function getReporterEmail()
+    {
+        return $this->request['reporter_email'];
+    }
+
+    public function getReportedName()
+    {
+        return $this->request['nama_terlapor'];
+    }
+
+    public function getReportedPhoneNumber()
+    {
+        return $this->request['no_hp_terlapor'];
+    }
+
+    public function getReportDescription()
+    {
+        return $this->request['deskripsi_laporan'];
+    }
+
+    public function getLatitude()
+    {
+        return $this->request['latitude'];
+    }
+
+    public function getLongitude()
+    {
+        return $this->request['longitude'];
+    }
+
+    public function getDistricts()
+    {
+        return $this->request['kecamatan'];
+    }
+
+    public function getRegency()
+    {
+        return $this->request['kabupaten'];
+    }
+
+    public function getProvince()
+    {
+        return $this->request['provinsi'];
+    }
+
+    public function getStatus()
+    {
+        return $this->request['status'];
     }
 }

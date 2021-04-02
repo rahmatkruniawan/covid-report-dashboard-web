@@ -21,6 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('v1')->namespace('Api')->group(function(){
 	Route::post('login', 'AuthController@login');
 	Route::group(['middleware' => 'auth:api'], function(){
-		
+		//
 	});
+
+	Route::post('covid/lapor', 'InformController@sendInformation');
 });
