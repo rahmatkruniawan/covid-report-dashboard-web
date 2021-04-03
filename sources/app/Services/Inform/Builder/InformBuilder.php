@@ -9,6 +9,7 @@ class InformBuilder implements InformInterface
 {
     private $request;
     private $inform_model;
+    private $default_status = 'menunggu';
 
     public function __construct(Request $request)
     {
@@ -36,6 +37,6 @@ class InformBuilder implements InformInterface
         $this->inform_model->setDistricts($this->inform_model->getDistricts());
         $this->inform_model->setRegency($this->inform_model->getRegency());
         $this->inform_model->setProvince($this->inform_model->getProvince());
-        $this->inform_model->setStatus($this->inform_model->getStatus());
+        $this->inform_model->setStatus($this->default_status);
     }
 }
