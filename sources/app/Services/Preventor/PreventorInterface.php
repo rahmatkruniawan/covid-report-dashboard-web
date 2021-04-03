@@ -2,7 +2,7 @@
 
 namespace App\Services\Preventor;
 
-interface PreventionInterface
+interface PreventorInterface
 {
     public function prevent();
 }

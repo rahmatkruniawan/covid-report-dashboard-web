@@ -4,9 +4,9 @@ namespace App\Services\Inform;
 
 use Illuminate\Http\Request;
 use App\Models\InformModel;
-use App\Services\Preventor\PreventionInterface;
+use App\Services\Preventor\PreventorInterface;
 
-class InformPayloadPreventor implements PreventionInterface
+class InformPayloadPreventor implements PreventorInterface
 {
     private $inform_model;
     private $phone_number;
