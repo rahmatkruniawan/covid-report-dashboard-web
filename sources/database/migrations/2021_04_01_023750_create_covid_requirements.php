@@ -79,6 +79,7 @@ class CreateCovidRequirements extends Migration
         Schema::create('file_lapor', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('lapor_id');
+            $table->string('files');
             $table->timestamps();
         });
     }
