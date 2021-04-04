@@ -11,15 +11,14 @@ class ImageBuilder implements InformInterface
     private $request;
     private $image_file_name;
     private $image_file_model;
-    private $image_directory = 'public/images/report';
 
     public function __construct(Request $request)
     {
         $this->request = $request;
         $this->image_file_model = new ImageFileModel($this->request);
-        $basePath = \Config::get("images.base_path");
-        $featurePath = \Config::get("images.feature.report");
-        $this->image_directory = $basePath . $featurePath;
+        $imageBasePath = \Config::get("images.base_path");
+        $imageFeaturePath = \Config::get("images.feature.report");
+        $this->image_directory = $imageBasePath . $imageFeaturePath;
     }
 
     public function build()
