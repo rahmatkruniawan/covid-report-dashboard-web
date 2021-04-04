@@ -2,6 +2,7 @@
 
 namespace App\Services\Inform\Builder;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\InformModel;
 
@@ -9,6 +10,8 @@ class InformBuilder implements InformInterface
 {
     private $request;
     private $default_status = 'menunggu';
+    private $default_province = 'Daerah Istimewa Yogyakarta';
+
     public $inform_model;
 
     public function __construct(Request $request)
@@ -24,6 +27,7 @@ class InformBuilder implements InformInterface
 
     public function create()
     {
+        $this->inform_model->setReportCode($this->createReportCode());
         $this->inform_model->setReportCategory($this->inform_model->getReportCategory());
         $this->inform_model->setReporterName($this->inform_model->getReporterName());
         $this->inform_model->setReporterPhoneNumber($this->inform_model->getReporterPhoneNumber());
@@ -36,7 +40,15 @@ class InformBuilder implements InformInterface
         $this->inform_model->setAddress($this->inform_model->getAddress());
         $this->inform_model->setDistricts($this->inform_model->getDistricts());
         $this->inform_model->setRegency($this->inform_model->getRegency());
-        $this->inform_model->setProvince($this->inform_model->getProvince());
+        $this->inform_model->setProvince($this->default_province);
         $this->inform_model->setStatus($this->default_status);
+    }
+
+    private function createReportCode()
+    {
+        $currentDate = Carbon::now()->format('ymdHis');
+        $reportCode = $this->inform_model->getReportCategory() . $currentDate;
+
+        return $reportCode;
     }
 }

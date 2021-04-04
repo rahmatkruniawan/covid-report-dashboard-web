@@ -85,6 +85,11 @@ class InformModel extends Model
         $this->status = $status;
     }
 
+    public function setReportCode(?string $reportCode)
+    {
+        $this->kode_lapor = $reportCode;
+    }
+
     public function getReporterName()
     {
         return $this->request['nama_pelapor'];
