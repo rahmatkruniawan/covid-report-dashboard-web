@@ -2,12 +2,14 @@
 
 namespace App\Services\Inform;
 
+use Validator;
 use Illuminate\Http\Request;
 use App\Models\InformModel;
 use App\Services\Preventor\PreventorInterface;
 
 class InformPayloadPreventor implements PreventorInterface
 {
+    private $request;
     private $inform_model;
     private $phone_number;
 
@@ -15,7 +17,8 @@ class InformPayloadPreventor implements PreventorInterface
 
     public function __construct(Request $request)
     {
-        $this->inform_model = new InformModel($request);
+        $this->request = $request;
+        $this->inform_model = new InformModel($this->request);
     }
 
     public function prevent()
@@ -41,6 +44,10 @@ class InformPayloadPreventor implements PreventorInterface
 
         if (! $this->isReporterEmailValid()) {
             return 'invalid_email';
+        }
+
+        if (! $this->isImageTypeAllowed()) {
+            return 'invalid_image_type';
         }
 
         return;
@@ -76,6 +83,22 @@ class InformPayloadPreventor implements PreventorInterface
     {
         if (filter_var($this->inform_model->getReporterEmail(), FILTER_VALIDATE_EMAIL)) {
             return true;
+        }
+
+        return false;
+    }
+
+    private function isImageTypeAllowed()
+    {
+        $validator = Validator::make(
+            $this->request->all(), 
+            [
+                'images' => 'required|mimes:jpg,jpeg,png'
+            ]
+        );
+
+        if (! $validator->fails()) {          
+            return true;                     
         }
 
         return false;

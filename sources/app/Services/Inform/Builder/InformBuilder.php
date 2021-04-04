@@ -8,8 +8,8 @@ use App\Models\InformModel;
 class InformBuilder implements InformInterface
 {
     private $request;
-    private $inform_model;
     private $default_status = 'menunggu';
+    public $inform_model;
 
     public function __construct(Request $request)
     {

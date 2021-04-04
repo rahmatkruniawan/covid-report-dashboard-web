@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Services\Inform\InformPayloadPreventor;
 use App\Services\Inform\Builder\InformBuilder;
 use App\Services\Inform\Builder\ResponseBuilder;
+use App\Services\Inform\Builder\ImageBuilder;
+use Validator;
 
 class InformHandler
 {
@@ -13,12 +15,16 @@ class InformHandler
     private $error_payload;
     private $inform_builder;
     private $response_builder;
+    private $request;
+    private $image_builder;
 
     public function __construct(Request $request)
     {
-        $this->payload_preventor = new InformPayloadPreventor($request);
-        $this->inform_builder = new InformBuilder($request);
+        $this->request = $request;
         $this->response_builder = new ResponseBuilder();
+        $this->image_builder = new ImageBuilder($this->request);
+        $this->inform_builder = new InformBuilder($this->request);
+        $this->payload_preventor = new InformPayloadPreventor($this->request);
     }
 
     public function saveReport()
@@ -27,7 +33,10 @@ class InformHandler
             return $this->response_builder->error($this->error_payload);
         }
 
-        $this->inform_builder->build();
+        $this->saveInformation();
+
+        $this->saveImage();
+
         return $this->response_builder->successfullySaveData();
     }
 
@@ -39,5 +48,16 @@ class InformHandler
         }
 
         return true;
+    }
+
+    private function saveInformation()
+    {
+        $this->inform_builder->build();
+    }
+
+    private function saveImage()
+    {
+        $this->request['lapor_id'] = $this->inform_builder->inform_model->id;
+        $this->image_builder->build();
     }
 }
