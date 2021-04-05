@@ -163,6 +163,7 @@ class InformModel extends Model
     {
         return InformModel::where('no_hp_terlapor', '=', $phoneNumberReported)
             ->where('status', '!=', 'selesai')
+            ->latest()
             ->first();
     }
 }

@@ -101,8 +101,8 @@ class InformPayloadPreventor implements PreventorInterface
             ]
         );
 
-        if (! $validator->fails()) {          
-            return true;                     
+        if (! $validator->fails()) {
+            return true;
         }
 
         return false;
@@ -114,8 +114,7 @@ class InformPayloadPreventor implements PreventorInterface
             return false;
         }
 
-        $report = $this->inform_model->loadByPhoneNumberReportedAndLastStatus($this->request['no_hp_terlapor']);      
-
+        $report = $this->inform_model->loadByPhoneNumberReportedAndLastStatus($this->request['no_hp_terlapor']);
         if ($report == null) {
             return false;
         }
