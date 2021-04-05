@@ -50,6 +50,10 @@ class InformPayloadPreventor implements PreventorInterface
             return 'invalid_image_type';
         }
 
+        if ($this->isPhoneNumberReportedExistAndStatusUndone()) {
+            return 'patient_has_been_reported_and_still_acted';
+        }
+
         return;
     }
 
@@ -102,5 +106,20 @@ class InformPayloadPreventor implements PreventorInterface
         }
 
         return false;
+    }
+
+    private function isPhoneNumberReportedExistAndStatusUndone()
+    {
+        if ($this->request['no_hp_terlapor'] == null) {
+            return false;
+        }
+
+        $report = $this->inform_model->loadByPhoneNumberReportedAndLastStatus($this->request['no_hp_terlapor']);      
+
+        if ($report == null) {
+            return false;
+        }
+
+        return true;
     }
 }

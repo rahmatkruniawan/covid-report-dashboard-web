@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 
 class InformModel extends Model
@@ -10,7 +9,7 @@ class InformModel extends Model
     protected $table = 'lapor';
     private $request = [];
 
-    public function __construct(Request $request)
+    public function __construct($request)
     {
         $this->request = $request;
     }
@@ -158,5 +157,12 @@ class InformModel extends Model
     public function getStatus()
     {
         return $this->request['status'];
+    }
+
+    public function loadByPhoneNumberReportedAndLastStatus($phoneNumberReported)
+    {
+        return InformModel::where('no_hp_terlapor', '=', $phoneNumberReported)
+            ->where('status', '!=', 'selesai')
+            ->first();
     }
 }
