@@ -15,7 +15,7 @@ class InformController extends Controller
         $this->inform_handler = new InformHandler($request);
     }
 
-    public function sendInformation()
+    public function sendReport()
     {
         return $this->inform_handler->saveReport();
     }
