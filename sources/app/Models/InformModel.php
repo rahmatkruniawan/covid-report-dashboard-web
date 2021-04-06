@@ -159,6 +159,11 @@ class InformModel extends Model
         return $this->request['status'];
     }
 
+    public function loadLastReport()
+    {
+        return InformModel::latest()->first();
+    }
+
     public function loadByPhoneNumberReportedAndLastStatus($phoneNumberReported)
     {
         return InformModel::where('no_hp_terlapor', '=', $phoneNumberReported)

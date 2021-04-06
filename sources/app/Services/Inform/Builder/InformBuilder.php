@@ -11,12 +11,14 @@ class InformBuilder implements InformInterface
     private $request;
     private $default_status = 'menunggu';
     private $default_province = 'Daerah Istimewa Yogyakarta';
+    private $last_report;
 
     public $inform_model;
 
     public function __construct(Request $request)
     {
         $this->inform_model = new InformModel($request);
+        $this->last_report = $this->inform_model->loadLastReport();
     }
 
     public function build()
@@ -44,10 +46,25 @@ class InformBuilder implements InformInterface
         $this->inform_model->setStatus($this->default_status);
     }
 
+    /**
+     * Note:
+     * Format report code is: {report_category}{last_3_digits_phone_number_reported}{current_date}
+     * (2021/4/5) Yasser Yazid M
+     */
     private function createReportCode()
     {
-        $currentDate = Carbon::now()->format('ymdHis');
-        $reportCode = $this->inform_model->getReportCategory() . $currentDate;
+        if ($this->last_report != null) {
+            $id = $this->last_report->id + 1;
+        } else {
+            $id = 1;
+        }
+
+        $lastThreeDidgitsPhoneNumberReporter = substr($this->inform_model->getReporterPhoneNumber(), -3);
+        $currentDate = Carbon::now()->format('ymd');
+        $reportCode = $this->inform_model->getReportCategory() .
+            $lastThreeDidgitsPhoneNumberReporter .
+            $currentDate .
+            $id;
 
         return $reportCode;
     }
