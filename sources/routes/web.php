@@ -22,8 +22,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/', 'HomeController@index');
 
     // Home Controller
-    Route::prefix('home')->group(function(){
+    Route::prefix('home')->group(function() {
         Route::get('/', 'HomeController@index')->name('home');
+    });
+
+    Route::prefix('report')->group(function() {
+        Route::get('/', 'ReportController@index')->name('report');
+        Route::post('/', 'ReportController@setReportData');
     });
 
     // Security Module
