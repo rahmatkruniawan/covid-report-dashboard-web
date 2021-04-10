@@ -2,17 +2,25 @@
 
 namespace App\Services\DashboardReport;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\User;
 use App\Models\InformModel;
 use Yajra\DataTables\DataTables;
+use App\Models\ReportHistory;
 
 class DashboardReport
 {
     private $inform_model;
+    private $request;
+    private $data_tables;
+    private $report_history_model;
+    private $detail_report;
 
     public function __construct()
     {
         $this->inform_model = new InformModel($request = null);
+        $this->report_history_model = new ReportHistory();
     }
 
     public function showAll()
@@ -20,19 +28,88 @@ class DashboardReport
         return view('reports.list');
     }
 
-    public function getReportData($req, $dataTables)
+    public function getReportData($request, $dataTables)
     {
-        return $this->fetchReportLists($req, $dataTables);
+        $this->data_tables = $dataTables;
+        return $this->fetchReportLists($request);
     }
 
-    public function fetchReportLists($req, $dataTables)
+    public function fetchReportLists($request)
     {
-        return $dataTables->eloquent($this->inform_model->orderBy('id', 'desc'))
-            ->addcolumn('action', function($row) use ($req) {
-                return  '<a data-toggle="tooltip" title="Edit" href="'.route('user.edit',['id'=>$row->id]).'"><i class="bx bx-edit"></i></a>'.
-                        '<a data-toggle="tooltip" title="Delete" href="#" onclick="deleteRow(\'delete-form-'.$row->id.'\', userTable)"><i class="bx bx-trash"></i></a>'.
-                        '<form id="delete-form-'.$row->id.'" action="'.route('user.delete',['id'=>$row->id]).'" method="POST" style="display: none;"><input name=_token value='.csrf_token().' type=hidden></form>';
+        return $this->data_tables->of($this->getReportLists())
+            ->addcolumn('action', function($row) use ($request) {
+                return
+                    '<a data-toggle="tooltip" title="Edit" href="'.route('report.detail',['id'=>$row->id]).'"><i class="bx bx-edit"></i></a>';
             })
             ->toJson();
+    }
+
+    public function getReportLists()
+    {
+        return $this->inform_model->loadReportLists();
+    }
+
+    public function getDetailReport($id)
+    {
+        $report = $this->inform_model
+            ->loadReportLists()
+            ->where('lapor.id', '=', $id)
+            ->first();
+
+        $reportStatus = [
+            'menunggu',
+            'diproses',
+            'dibatalkan',
+            'selesai'
+        ];
+
+        return view('reports.detail', [
+            'report' => $report,
+            'reportStatus' => $reportStatus
+        ]);
+    }
+
+    public function setStatusReport($request, ?int $reportId)
+    {
+        try {
+            $this->user = Auth::user();
+            $this->status = $request->input('status');
+            $this->setStatusReportHistory($reportId);
+            $this->updateStatusReported($reportId);
+
+            $response = ($reportId) ? trans('message.update.success') : trans('message.create.success');
+        } catch (\Exception $e) {
+            $e->getMessage();
+
+            $response = ($reportId) ? trans('message.update.failed') : trans('message.create.failed');
+        }
+
+        if($request->ajax()){
+            return response()->json($response);
+        }else{
+            $request->session()->flash('status',$response);
+            return redirect()->route('report');
+        }
+    }
+
+    public function getReportHistoryByReported($reportId)
+    {
+        return (new ReportHistory())->loadReportHistoryByReported($reportId);
+    }
+
+    public function updateStatusReported($reportId)
+    {
+        $report = $this->inform_model->findOrFail($reportId);
+
+        $report->status = $this->status;
+        $report->save();
+    }
+
+    public function setStatusReportHistory($reportId)
+    {
+        $this->report_history_model->setReportId($reportId);
+        $this->report_history_model->setStatus($this->status);
+        $this->report_history_model->setUserId($this->user->id);
+        $this->report_history_model->save();
     }
 }

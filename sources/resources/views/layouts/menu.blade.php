@@ -7,7 +7,7 @@
             <a  class="dropdown-item align-items-center " href="{{route('user')}}"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="User">User</span></a>
         </li>
         <li >
-            <a  class="dropdown-item align-items-center " href="{{route('report')}}"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="User">List Laporan</span></a>
+            <a  class="dropdown-item align-items-center " href="{{route('report')}}"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="User">Daftar Laporan</span></a>
         </li>
         @endcan
     </ul>

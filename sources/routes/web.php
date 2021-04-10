@@ -29,6 +29,9 @@ Route::middleware('auth')->group(function () {
     Route::prefix('report')->group(function() {
         Route::get('/', 'ReportController@index')->name('report');
         Route::post('/', 'ReportController@setReportData');
+
+        Route::get('{id}/detail', 'ReportController@detailReport')->name('report.detail');
+        Route::post('{id}/detail', 'ReportController@setStatusReport');
     });
 
     // Security Module

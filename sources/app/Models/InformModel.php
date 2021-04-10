@@ -171,4 +171,18 @@ class InformModel extends Model
             ->latest()
             ->first();
     }
+
+    public function loadReportLists()
+    {
+        return \DB::table('lapor')
+            ->leftJoin('kategori_laporan', 'lapor.kategori_laporan_id', '=', 'kategori_laporan.id')
+            ->select(
+                [
+                    'lapor.*',
+                    'kategori_laporan.id as id_kategori_laporan',
+                    'kategori_laporan.nama as nama_kategori_laporan'
+                ]
+            )
+            ->orderBy('id', 'desc');
+    }
 }

@@ -10,7 +10,7 @@
                         <ol class="breadcrumb p-0 mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bx bx-home-alt"></i></a></li>
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Breadcrumb</a></li>
-                            <li class="breadcrumb-item">User</li>
+                            <li class="breadcrumb-item">Daftar Laporan</li>
                         </ol>
                     </div>
                 </div>
@@ -20,27 +20,26 @@
     <div class="content-body">
         <div class="row">
             <div class="col-12">
-                <a class="btn btn-primary mb-1" title="Daftar Laporan" href="{{ route('report') }}"><i class="bx bx-table"></i> User List</a>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">User Data</h3>
+                        <h3 class="card-title">Daftar Laporan</h3>
                     </div>
                     <div class="card-body">
                         <table id="reportTable" class="table table-hover" width="100%">
                             <thead>
                                 <tr>
-                                    <th width="10%">Action</th>
+                                    <th>Kode Lapor</th>
                                     <th>Kategori Laporan</th>
                                     <th>Nama Pelapor</th>
-                                    <th>Email Pelapor</th>
                                     <th>No HP Pelapor</th>
                                     <th>Nama Terlapor</th>
                                     <th>No HP Terlapor</th>
                                     <th>Status</th>
+                                    <th width="5%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,17 +81,17 @@ var reportTable;
             }],
             order:[[1,'desc']],
             columns: [
-                {
-                    data: 'action',
-                    orderable: false,
-                },
-                { data: 'kategori_laporan_id'},
+                { data: 'kode_lapor'},
+                { data: 'nama_kategori_laporan'},
                 { data: 'nama_pelapor'},
-                { data: 'email_pelapor'},
                 { data: 'no_hp_pelapor'},
                 { data: 'nama_terlapor'},
                 { data: 'no_hp_terlapor'},
                 { data: 'status'},
+                {
+                    data: 'action',
+                    orderable: false,
+                },
             ],
         })
         .on('xhr.dt', function (e, settings, json, xhr) {});

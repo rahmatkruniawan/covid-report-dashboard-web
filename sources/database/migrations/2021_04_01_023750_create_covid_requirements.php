@@ -61,7 +61,7 @@ class CreateCovidRequirements extends Migration
             $table->bigIncrements('id');
             $table->integer('lapor_id');
             $table->integer('user_id');
-            $table->enum('status', ['diproses', 'dibatalkan', 'selesai'])->nullable();
+            $table->enum('status', ['menunggu', 'diproses', 'dibatalkan', 'selesai'])->nullable();
             $table->timestamps();
         });
     }
