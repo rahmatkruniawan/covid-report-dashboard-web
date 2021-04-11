@@ -8,6 +8,7 @@ use App\Services\Inform\InformPayloadPreventor;
 use App\Services\Inform\Builder\InformBuilder;
 use App\Services\Inform\Builder\ResponseBuilder;
 use App\Services\Inform\Builder\ImageBuilder;
+use App\Models\InformModel;
 use Validator;
 
 class InformHandler
@@ -28,6 +29,7 @@ class InformHandler
         $this->inform_builder = new InformBuilder($this->request);
         $this->payload_preventor = new InformPayloadPreventor($this->request);
         $this->report_history = new ReportHistory();
+        $this->inform_model = new InformModel($request);
     }
 
     public function saveReport()
@@ -39,7 +41,7 @@ class InformHandler
         try {
             $this->saveInformation();
             $this->saveImage();
-            $this->saveRportHistory();
+            $this->saveReportHistory();
 
             return $this->response_builder->successfullySaveData();
         } catch (Exception $e) {
@@ -68,11 +70,37 @@ class InformHandler
         $this->image_builder->build();
     }
 
-    private function saveRportHistory()
+    private function saveReportHistory()
     {
         $this->report_history->setReportId($this->inform_builder->inform_model->id);
         $this->report_history->setStatus($this->inform_builder->default_status);
         $this->report_history->setUserId(null);
         $this->report_history->save();
+    }
+
+    public function searchReport($request)
+    {
+        $this->search = $request->input('cari');
+
+        $reports = $this->getReportDataByReporterPhoneNumberOrReportCode();
+
+        if (count($reports) == 0) {
+            return $this->response_builder->error($error = 'data_not_found');
+        }
+
+        $searchResults = [];
+        foreach ($reports as $report) {
+            $searchResults[] = $report;
+        }
+
+        return $this->response_builder->successfullyLoadData($searchResults);
+    }
+
+    private function getReportDataByReporterPhoneNumberOrReportCode()
+    {
+        return $this->inform_model->loadReportLists()
+            ->where('no_hp_pelapor', '=', $this->search)
+            ->orWhere('kode_lapor', '=', $this->search)
+            ->get();
     }
 }

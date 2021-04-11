@@ -24,5 +24,6 @@ Route::prefix('v1')->namespace('Api')->group(function(){
 		//
 	});
 
-	Route::post('covid/lapor', 'InformController@sendReport');
+	Route::post('lapor', 'InformController@sendReport');
+	Route::get('lapor', 'InformController@searchReport');
 });

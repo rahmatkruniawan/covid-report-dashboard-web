@@ -14,7 +14,6 @@ class InformBuilder implements InformInterface
 
     public $inform_model;
     public $default_status = 'menunggu';
-    public $inform_model_id;
 
     public function __construct(Request $request)
     {
@@ -26,7 +25,6 @@ class InformBuilder implements InformInterface
     {
         $this->create();
         $this->inform_model->save();
-        $this->inform_model_id = $this->inform_model->id;
     }
 
     public function create()

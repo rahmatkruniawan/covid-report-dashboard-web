@@ -12,11 +12,17 @@ class InformController extends Controller
 
     public function __construct(Request $request)
     {
+    	$this->request = $request;
         $this->inform_handler = new InformHandler($request);
     }
 
     public function sendReport()
     {
         return $this->inform_handler->saveReport();
+    }
+
+    public function searchReport()
+    {
+    	return $this->inform_handler->searchReport($this->request);
     }
 }
