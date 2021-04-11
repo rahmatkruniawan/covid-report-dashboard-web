@@ -15,17 +15,17 @@ class ReportHistory extends Model
     		->first();
     }
 
-    public function setReportId($reportId)
+    public function setReportId(?int $reportId)
     {
     	$this->lapor_id = $reportId;
     }
 
-    public function setStatus($status)
+    public function setStatus(?string $status)
     {
     	$this->status = $status;
     }
 
-    public function setUserId($userId)
+    public function setUserId(?int $userId)
     {
     	$this->user_id = $userId;
     }

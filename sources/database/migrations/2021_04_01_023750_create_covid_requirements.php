@@ -59,8 +59,8 @@ class CreateCovidRequirements extends Migration
     {
         Schema::create('riwayat_lapor', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('lapor_id');
-            $table->integer('user_id');
+            $table->integer('lapor_id')->nullable();
+            $table->integer('user_id')->nullable();
             $table->enum('status', ['menunggu', 'diproses', 'dibatalkan', 'selesai'])->nullable();
             $table->timestamps();
         });
