@@ -46,10 +46,6 @@ class InformPayloadPreventor implements PreventorInterface
             return 'invalid_email';
         }
 
-        if (! $this->isImageTypeAllowed()) {
-            return 'invalid_image_type';
-        }
-
         if ($this->isPhoneNumberReportedExistAndStatusUndone()) {
             return 'patient_has_been_reported_and_still_acted';
         }

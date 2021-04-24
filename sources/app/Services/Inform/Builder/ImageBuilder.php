@@ -5,12 +5,16 @@ namespace App\Services\Inform\Builder;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\ImageFileModel;
+use Illuminate\Support\Facades\Storage;
 
 class ImageBuilder implements InformInterface
 {
     private $request;
     private $image_file_name;
     private $image_file_model;
+    private $image;
+    private $image_name;
+    private $decode_image;
 
     public function __construct(Request $request)
     {
@@ -32,13 +36,13 @@ class ImageBuilder implements InformInterface
     public function create()
     {
         $this->image_file_model->setLaporId($this->image_file_model->getLaporId());
-        $this->image_file_model->setFiles($this->image_file_name);
+        $this->image_file_model->setFiles($this->image_name);
     }
 
     private function storeImageToDirectory()
     {
         try {
-            $this->request->file('images')->storeAs($this->image_directory, $this->image_file_name);
+            Storage::disk($this->image_directory)->put($this->image_name, $this->decode_image);
         } catch (\Exception $e) {
             $e->getMessage();
         }
@@ -46,10 +50,11 @@ class ImageBuilder implements InformInterface
 
     private function setImageName()
     {
-        $imageExtension = '.' . $this->request->file('images')->extension();
-        $this->image_file_name = $this->image_file_model->getLaporId() .
-            '_' .
-            Carbon::now()->format('YmdHis') .
-            $imageExtension;
+        $image = $this->request->input('gambar');
+        preg_match("/data:image\/(.*?);/", $image,$image_extension);
+        $image = preg_replace('/data:image\/(.*?);base64,/', '', $image);
+        $this->image = str_replace(' ', '+', $image);
+        $this->image_name = 'lapor' . time() . '.' . $image_extension[1];
+        $this->decode_image = base64_decode($this->image);
     }
 }
