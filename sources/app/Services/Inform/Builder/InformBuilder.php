@@ -11,8 +11,7 @@ class InformBuilder implements InformInterface
     private $request;
     private $default_province = 'Daerah Istimewa Yogyakarta';
     private $last_report;
-    private $report_code;
-
+    public $report_code;
     public $inform_model;
     public $default_status = 'menunggu';
 
