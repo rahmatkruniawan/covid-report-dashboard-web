@@ -26,7 +26,7 @@
                         <div class="card-header">
                             <h3 class="card-title">Detail Laporan 
                                 @if ($report->updated_at != $report->created_at)
-                                    (Updated at: {{ $report->updated_at }} )
+                                    (Updated at: {{ date('d-m-Y H:i', strtotime($report->updated_at)) }} )
                                 @endif
                             </h3>
                         </div>
