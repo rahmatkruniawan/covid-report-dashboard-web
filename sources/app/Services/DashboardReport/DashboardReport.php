@@ -5,6 +5,7 @@ namespace App\Services\DashboardReport;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\User;
+use App\Mail\SendMail;
 use App\Models\InformModel;
 use Yajra\DataTables\DataTables;
 use App\Models\ReportHistory;
@@ -82,10 +83,12 @@ class DashboardReport
     public function setStatusReport($request, ?int $reportId)
     {
         try {
+            $this->request = $request;
             $this->user = Auth::user();
-            $this->status = $request->input('status');
-            $this->setStatusReportHistory($reportId, $request);
+            $this->status = $this->request->input('status');
+            $this->setStatusReportHistory($reportId);
             $this->updateStatusReported($reportId);
+            $this->sendEmail();
 
             $response = ($reportId) ? trans('message.update.success') : trans('message.create.success');
         } catch (\Exception $e) {
@@ -94,10 +97,10 @@ class DashboardReport
             $response = ($reportId) ? trans('message.update.failed') : trans('message.create.failed');
         }
 
-        if($request->ajax()){
+        if($this->request->ajax()){
             return response()->json($response);
         }else{
-            $request->session()->flash('status',$response);
+            $this->request->session()->flash('status',$response);
             return redirect()->route('report');
         }
     }
@@ -109,23 +112,44 @@ class DashboardReport
 
     public function updateStatusReported($reportId)
     {
-        $report = $this->inform_model->findOrFail($reportId);
+        $this->report = $this->inform_model->findOrFail($reportId);
 
-        $report->status = $this->status;
-        $report->save();
+        $this->report->status = $this->status;
+        $this->report->save();
     }
 
-    public function setStatusReportHistory($reportId, $request)
+    public function setStatusReportHistory($reportId)
     {
         $this->report_history_model->setReportId($reportId);
         $this->report_history_model->setStatus($this->status);
         $this->report_history_model->setUserId($this->user->id);
-        $this->report_history_model->setMessage($request->input('catatan'));
+        $this->report_history_model->setMessage($this->request->input('catatan'));
         $this->report_history_model->save();
     }
 
     public function getReportHistory($reportId)
     {
         return (new ReportHistory())->loadReportHistory($reportId);
+    }
+
+    private function sendEmail()
+    {
+        $view = 'emails.progress';
+        $content = $this->buildProgressContent();
+        \Mail::to($this->report->email_pelapor)->send(new SendMail($this->report->nama_pelapor, $view, $content));
+    }
+
+    private function buildProgressContent()
+    {
+        if (! empty($this->request->input('catatan'))) {
+            $notes = "Berikut catatan dari tim Satgas Covid: <b> {$this->request->input('catatan')} </b>";
+        } else {
+            $notes = '';
+        }
+
+        $status = strtoupper($this->status);
+
+        $content = $status . $notes;
+        return $content;
     }
 }

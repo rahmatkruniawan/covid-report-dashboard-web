@@ -31,6 +31,7 @@ class SendMail extends Mailable
     public function build()
     {
         return $this->from('bantulaporcovid@gmail.com')
+            ->subject('Lapor Covid')
             ->view($this->view)
             ->with(
             [
