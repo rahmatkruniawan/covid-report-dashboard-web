@@ -13,7 +13,7 @@ class ImageBuilder implements InformInterface
     private $image_file_name;
     private $image_file_model;
     private $image;
-    private $image_name;
+    public $image_name;
     private $decode_image;
 
     public function __construct(Request $request)
@@ -53,7 +53,7 @@ class ImageBuilder implements InformInterface
         preg_match("/data:image\/(.*?);/", $image,$image_extension);
         $image = preg_replace('/data:image\/(.*?);base64,/', '', $image);
         $this->image = str_replace(' ', '+', $image);
-        $this->image_name = 'lapor' . time() . '.' . $image_extension[1];
         $this->decode_image = base64_decode($this->image);
+        $this->image_name = 'lapor' . time() . '.' . $image_extension[1];
     }
 }

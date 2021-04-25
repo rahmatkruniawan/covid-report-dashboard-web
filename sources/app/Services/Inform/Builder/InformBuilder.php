@@ -11,6 +11,7 @@ class InformBuilder implements InformInterface
     private $request;
     private $default_province = 'Daerah Istimewa Yogyakarta';
     private $last_report;
+    private $report_code;
 
     public $inform_model;
     public $default_status = 'menunggu';
@@ -61,11 +62,43 @@ class InformBuilder implements InformInterface
 
         $lastThreeDidgitsPhoneNumberReporter = substr($this->inform_model->getReporterPhoneNumber(), -3);
         $currentDate = Carbon::now()->format('ymd');
-        $reportCode = $this->inform_model->getReportCategory() .
+        $this->report_code = $this->inform_model->getReportCategory() .
             $lastThreeDidgitsPhoneNumberReporter .
             $currentDate .
             $id;
 
-        return $reportCode;
+        return $this->report_code;
+    }
+
+    public function buildResponseData($image)
+    {
+        $response['data']['laporan']['kode'] = $this->report_code;
+        $response['data']['laporan']['kategori'] = $this->reportCategoryName();
+        $response['data']['laporan']['gambar'] = asset($image);
+        $response['data']['pelapor']['nama'] = $this->inform_model->getReportCategory();
+        $response['data']['pelapor']['no_hp'] = $this->inform_model->getReporterPhoneNumber();
+        $response['data']['pelapor']['email'] = $this->inform_model->getReporterEmail();
+        $response['data']['terlapor']['nama'] = $this->inform_model->getReportedName();
+        $response['data']['terlapor']['no_hp'] = $this->inform_model->getReportedPhoneNumber();
+        $response['data']['terlapor']['alamat'] = $this->inform_model->getAddress();
+        $response['data']['terlapor']['kecamatan'] = $this->inform_model->getDistricts();
+        $response['data']['terlapor']['kabupaten'] = $this->inform_model->getRegency();
+        $response['data']['terlapor']['latitude'] = $this->inform_model->getLatitude();
+        $response['data']['terlapor']['longitude'] = $this->inform_model->getLongitude();
+
+        return $response;
+    }
+
+    private function reportCategoryName()
+    {
+        if ($this->inform_model->getReportCategory() == 1) {
+            return 'Pasien Covid';
+        }
+
+        if ($this->inform_model->getReportCategory() == 2) {
+            return 'Pelanggaran Prokes';
+        }
+
+        return 'Kategori Belum Terdaftar';
     }
 }

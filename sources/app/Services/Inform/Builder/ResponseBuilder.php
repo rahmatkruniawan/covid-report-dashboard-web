@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 
 class ResponseBuilder
 {
-    public function successfullySaveData()
+    public function successfullySaveData($response)
     {
-        return response()->json(new \stdClass(), 201);
+        return response()->json($response, 201);
     }
 
     public function successfullyLoadData($data)

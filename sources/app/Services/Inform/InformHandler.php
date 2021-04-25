@@ -43,7 +43,7 @@ class InformHandler
             $this->saveImage();
             $this->saveReportHistory();
 
-            return $this->response_builder->successfullySaveData();
+            return $this->response_builder->successfullySaveData($this->buildResponseData());
         } catch (Exception $e) {
             $e->getMessage();
         }
@@ -102,5 +102,10 @@ class InformHandler
             ->where('no_hp_pelapor', '=', $this->search)
             ->orWhere('kode_lapor', '=', $this->search)
             ->get();
+    }
+
+    public function buildResponseData()
+    {
+        return $this->inform_builder->buildResponseData($this->image_builder->image_name);
     }
 }
