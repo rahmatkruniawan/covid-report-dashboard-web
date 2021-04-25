@@ -122,7 +122,12 @@
                                                         @foreach($histories as $history)
                                                             <tr>
                                                                 <td>{{ucfirst($history->status)}}</td>
-                                                                <td>{{ucfirst($history->catatan)}}</td>
+                                                                <td>@if($history->catatan != null)
+                                                                        {{ucfirst($history->catatan)}}
+                                                                    @else
+                                                                        N/A
+                                                                    @endif
+                                                                </td>
                                                                 <td>{{date_format($history->created_at, 'd-m-Y H:i')}}</td>
                                                             </tr>
                                                         @endforeach
