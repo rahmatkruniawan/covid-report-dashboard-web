@@ -176,11 +176,13 @@ class InformModel extends Model
     {
         return \DB::table('lapor')
             ->leftJoin('kategori_laporan', 'lapor.kategori_laporan_id', '=', 'kategori_laporan.id')
+            ->leftJoin('file_lapor', 'lapor.id', '=', 'file_lapor.lapor_id')
             ->select(
                 [
                     'lapor.*',
                     'kategori_laporan.id as id_kategori_laporan',
-                    'kategori_laporan.nama as nama_kategori_laporan'
+                    'kategori_laporan.nama as nama_kategori_laporan',
+                    'file_lapor.files as image'
                 ]
             )
             ->orderBy('id', 'desc');

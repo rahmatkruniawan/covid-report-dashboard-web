@@ -20,9 +20,7 @@ class ImageBuilder implements InformInterface
     {
         $this->request = $request;
         $this->image_file_model = new ImageFileModel($this->request);
-        $imageBasePath = \Config::get("images.base_path");
-        $imageFeaturePath = \Config::get("images.feature.report");
-        $this->image_directory = $imageBasePath . $imageFeaturePath;
+        $this->image_directory = \Config::get("images.images_directory");
     }
 
     public function build()
@@ -42,7 +40,8 @@ class ImageBuilder implements InformInterface
     private function storeImageToDirectory()
     {
         try {
-            Storage::disk($this->image_directory)->put($this->image_name, $this->decode_image);
+            file_put_contents($this->image_name, $this->decode_image);
+
         } catch (\Exception $e) {
             $e->getMessage();
         }

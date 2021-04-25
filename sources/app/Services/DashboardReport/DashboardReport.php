@@ -56,6 +56,12 @@ class DashboardReport
             ->where('lapor.id', '=', $id)
             ->first();
 
+        if ($report->image != null) {
+            $image = asset($report->image);
+        } else {
+            $image = null;
+        }
+
         $reportStatus = [
             'menunggu',
             'diproses',
@@ -65,7 +71,8 @@ class DashboardReport
 
         return view('reports.detail', [
             'report' => $report,
-            'reportStatus' => $reportStatus
+            'reportStatus' => $reportStatus,
+            'image' => $image
         ]);
     }
 

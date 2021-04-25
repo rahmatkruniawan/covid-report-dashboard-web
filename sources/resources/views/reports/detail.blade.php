@@ -10,7 +10,7 @@
                         <ol class="breadcrumb p-0 mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bx bx-home-alt"></i></a></li>
                             <li class="breadcrumb-item"><a href="{{ route('home') }}">Breadcrumb</a></li>
-                            <li class="breadcrumb-item">User</li>
+                            <li class="breadcrumb-item">Detail Laporan</li>
                         </ol>
                     </div>
                 </div>
@@ -24,7 +24,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Detail Laporan</h3>
+                            <h3 class="card-title">Detail Laporan 
+                                @if ($report->updated_at != $report->created_at)
+                                    (Updated at: {{ $report->updated_at }} )
+                                @endif
+                            </h3>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -137,7 +141,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="no_hp_terlapor">No HP <span class="text-red">*</span></label>
-                                            <input disabled="disabled" type="text" class="form-control @error('no_hp_terlapor') is-invalid @enderror" id="no_hp_terlapor" name="no_hp_terlapor" value="{{ old('no_hp_terlapor')?? ($report->no_hp_terlapor ?? '' )}}"/>
+                                            <input disabled="disabled" type="text" class="form-control @error('no_hp_terlapor') is-invalid @enderror" id="no_hp_terlapor" name="no_hp_terlapor" value="{{ old('no_hp_terlapor')?? ($report->no_hp_terlapor ?? 'N/A' )}}"/>
                                             @error('name')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -161,6 +165,12 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="alamat">Foto <span class="text-red">*</span></label>
+                                            @if($image != null)
+                                                <center><img src="{{ $image }}" width="70%" height="70%" value="{{ $image }}" ></center>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
