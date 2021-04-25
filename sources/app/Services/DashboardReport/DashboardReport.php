@@ -69,10 +69,13 @@ class DashboardReport
             'selesai'
         ];
 
+        $histories = $this->getReportHistory($id);
+
         return view('reports.detail', [
             'report' => $report,
             'reportStatus' => $reportStatus,
-            'image' => $image
+            'image' => $image,
+            'histories' => $histories
         ]);
     }
 
@@ -81,7 +84,7 @@ class DashboardReport
         try {
             $this->user = Auth::user();
             $this->status = $request->input('status');
-            $this->setStatusReportHistory($reportId);
+            $this->setStatusReportHistory($reportId, $request);
             $this->updateStatusReported($reportId);
 
             $response = ($reportId) ? trans('message.update.success') : trans('message.create.success');
@@ -112,11 +115,17 @@ class DashboardReport
         $report->save();
     }
 
-    public function setStatusReportHistory($reportId)
+    public function setStatusReportHistory($reportId, $request)
     {
         $this->report_history_model->setReportId($reportId);
         $this->report_history_model->setStatus($this->status);
         $this->report_history_model->setUserId($this->user->id);
+        $this->report_history_model->setMessage($request->input('catatan'));
         $this->report_history_model->save();
+    }
+
+    public function getReportHistory($reportId)
+    {
+        return (new ReportHistory())->loadReportHistory($reportId);
     }
 }

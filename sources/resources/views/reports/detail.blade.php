@@ -71,6 +71,15 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
+                                            <label for="nama_terlapor">Deskripsi Laporan <span class="text-red">*</span></label>
+                                            <input disabled="disabled" type="text" class="form-control @error('deskripsi_laporan') is-invalid @enderror" id="deskripsi_laporan" name="deskripsi_laporan" value="{{ old('deskripsi_laporan')?? ($report->deskripsi_laporan ?? '' )}}" required/>
+                                            @error('name')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
                                             <label for="status">Status Laporan<span class="text-red">*</span></label>
                                             <select class="form-control @error('status') is-invalid @enderror" id="status" name="status" @if($report && $report->status) readonly @endif required>
                                                 @foreach($reportStatus as $status)
@@ -90,14 +99,39 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label for="nama_terlapor">Deskripsi Laporan <span class="text-red">*</span></label>
-                                            <input disabled="disabled" type="text" class="form-control @error('deskripsi_laporan') is-invalid @enderror" id="deskripsi_laporan" name="deskripsi_laporan" value="{{ old('deskripsi_laporan')?? ($report->deskripsi_laporan ?? '' )}}" required/>
+                                            <label for="catatan">Catatan <span class="text-red"></span></label>
+                                            <textarea type="text" class="form-control @error('catatan') is-invalid @enderror" id="catatan" name="catatan" required/></textarea>
                                             @error('name')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
                                         </div>
+                                        <hr>
+                                        <div class="form-group">
+                                            <div class="table-responsive">
+                                                <table class="table mb30 display dataTable table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Status</th>
+                                                            <th>Note</th>
+                                                            <th>Waktu Dibuat</th>
+                                                        </tr>                    
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($histories as $history)
+                                                            <tr>
+                                                                <td>{{ucfirst($history->status)}}</td>
+                                                                <td>{{ucfirst($history->catatan)}}</td>
+                                                                <td>{{date_format($history->created_at, 'd-m-Y H:i')}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
                                     </div>
                                     <div class="col-md-4 col-sm-12">
                                         <div class="form-group">
