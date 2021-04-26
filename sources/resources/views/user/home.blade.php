@@ -9,8 +9,7 @@
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb p-0 mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bx bx-home-alt"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Breadcrumb</a></li>
-                            <li class="breadcrumb-item">User</li>
+                            <li class="breadcrumb-item">Data Petugas</li>
                         </ol>
                     </div>
                 </div>
@@ -20,15 +19,15 @@
     <div class="content-body">
         <div class="row">
             <div class="col-12">
-                <a class="btn btn-primary mb-1" title="User List" href="{{ route('user') }}"><i class="bx bx-table"></i> User List</a>
-                <a class="btn btn-outline-secondary mb-1" title="Register User" href="{{ route('user.add') }}"><i class="bx bx-plus"></i> Register User</a>
+                <a class="btn btn-primary mb-1" title="Data Petugas" href="{{ route('user') }}"><i class="bx bx-table"></i> Data Petugas</a>
+                <a class="btn btn-outline-secondary mb-1" title="Registrasi Petugas" href="{{ route('user.add') }}"><i class="bx bx-plus"></i> Registrasi Petugas</a>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">User Data</h3>
+                        <h3 class="card-title">Data Petugas</h3>
                     </div>
                     <div class="card-body">
                         <table id="userTable" class="table table-hover" width="100%">

@@ -52,7 +52,7 @@
                             </div>
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-info">Process</button>
-                                <a class="btn btn-outline-danger" href="{{ route('city') }}">Cancel</a>
+                                <a class="btn btn-outline-danger" href="{{ route('city') }}">Batal</a>
                             </div>
                         </div>
                     </div>

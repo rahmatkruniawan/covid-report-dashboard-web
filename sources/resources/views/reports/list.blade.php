@@ -9,7 +9,6 @@
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb p-0 mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bx bx-home-alt"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Breadcrumb</a></li>
                             <li class="breadcrumb-item">Daftar Laporan</li>
                         </ol>
                     </div>

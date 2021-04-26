@@ -9,8 +9,7 @@
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb p-0 mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bx bx-home-alt"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Breadcrumb</a></li>
-                            <li class="breadcrumb-item">User</li>
+                            <li class="breadcrumb-item">Data Petugas</li>
                         </ol>
                     </div>
                 </div>
@@ -20,8 +19,8 @@
     <div class="content-body">
         <div class="row">
             <div class="col-12">
-                <a class="btn btn-outline-secondary mb-1" title="User List" href="{{ route('user') }}"><i class="bx bx-table"></i> User List</a>
-                <a class="btn btn-primary mb-1" title="Register User" href="{{ route('user.add') }}"><i class="bx bx-plus"></i> Register User</a>
+                <a class="btn btn-outline-secondary mb-1" title="Data Petugas" href="{{ route('user') }}"><i class="bx bx-table"></i> Data Petugas</a>
+                <a class="btn btn-primary mb-1" title="Registrasi Petugas" href="{{ route('user.add') }}"><i class="bx bx-plus"></i> Registrasi Petugas</a>
             </div>
         </div>
         <form action="{{ ($user) ? route('user.edit', ['id' => $user->id]) : route('user.add') }}" method="POST">
@@ -30,14 +29,18 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Create User</h3>
+                            @if($user)
+                            <h3 class="card-title">Buat Petugas Baru</h3>
+                            @else
+                            <h3 class="card-title">Ubah Data Petugas</h3>
+                            @endif
                         </div>
                         <div class="card-content">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6 col-sm-12">
                                         <div class="form-group">
-                                            <label for="name">Name <span class="text-red">*</span></label>
+                                            <label for="name">Nama <span class="text-red">*</span></label>
                                             <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name')?? ($user->name ?? '' )}}" required/>
                                             @error('name')
                                                 <span class="invalid-feedback" role="alert">
@@ -56,7 +59,7 @@
                                         </div>
                                         @if(!$user)
                                         <div class="form-group">
-                                            <label for="password">Password <span class="text-red">*</span></label>
+                                            <label for="password">Kata Sandi <span class="text-red">*</span></label>
                                             <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ old('password')}}" required/>
                                             @error('password')
                                                 <span class="invalid-feedback" role="alert">
@@ -90,8 +93,8 @@
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-info">Process</button>
-                                <a class="btn btn-outline-danger" href="{{ route('user') }}">Cancel</a>
+                                <button type="submit" class="btn btn-info">Simpan</button>
+                                <a class="btn btn-outline-danger" href="{{ route('user') }}">Batal</a>
                             </div>
                         </div>
                     </div>
