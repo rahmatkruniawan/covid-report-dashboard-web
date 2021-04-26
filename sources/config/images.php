@@ -1,8 +1,5 @@
 <?php
 
 return [
-    "base_path" => "public/images",
-    "feature" => [
-        "report" => "/report"
-    ]
+    "images_directory" => "/report/",
 ];

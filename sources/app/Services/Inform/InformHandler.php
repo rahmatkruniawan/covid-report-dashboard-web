@@ -2,6 +2,7 @@
 
 namespace App\Services\Inform;
 
+use App\Mail\SendMail;
 use Illuminate\Http\Request;
 use App\Models\ReportHistory;
 use App\Services\Inform\InformPayloadPreventor;
@@ -42,8 +43,9 @@ class InformHandler
             $this->saveInformation();
             $this->saveImage();
             $this->saveReportHistory();
+            $this->sendEmail();
 
-            return $this->response_builder->successfullySaveData();
+            return $this->response_builder->successfullySaveData($this->buildResponseData());
         } catch (Exception $e) {
             $e->getMessage();
         }
@@ -102,5 +104,17 @@ class InformHandler
             ->where('no_hp_pelapor', '=', $this->search)
             ->orWhere('kode_lapor', '=', $this->search)
             ->get();
+    }
+
+    private function buildResponseData()
+    {
+        return $this->inform_builder->buildResponseData($this->image_builder->image_name);
+    }
+
+    private function sendEmail()
+    {
+        $view = 'emails.lapor';
+        $content = $this->inform_builder->report_code;
+        \Mail::to($this->request['email_pelapor'])->send(new SendMail($this->request['nama_pelapor'], $view, $content));
     }
 }

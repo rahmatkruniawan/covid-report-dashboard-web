@@ -9,7 +9,7 @@
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb p-0 mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bx bx-home-alt"></i></a></li>
-                            <li class="breadcrumb-item">User</li>
+                            <li class="breadcrumb-item">Detail Laporan</li>
                         </ol>
                     </div>
                 </div>
@@ -23,7 +23,11 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Detail Laporan</h3>
+                            <h3 class="card-title">Detail Laporan 
+                                @if ($report->updated_at != $report->created_at)
+                                    (Updated at: {{ date('d-m-Y H:i', strtotime($report->updated_at)) }} )
+                                @endif
+                            </h3>
                         </div>
                         <div class="card-content">
                             <div class="card-body">
@@ -66,6 +70,15 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
+                                            <label for="nama_terlapor">Deskripsi Laporan <span class="text-red">*</span></label>
+                                            <input disabled="disabled" type="text" class="form-control @error('deskripsi_laporan') is-invalid @enderror" id="deskripsi_laporan" name="deskripsi_laporan" value="{{ old('deskripsi_laporan')?? ($report->deskripsi_laporan ?? '' )}}" required/>
+                                            @error('name')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
                                             <label for="status">Status Laporan<span class="text-red">*</span></label>
                                             <select class="form-control @error('status') is-invalid @enderror" id="status" name="status" @if($report && $report->status) readonly @endif required>
                                                 @foreach($reportStatus as $status)
@@ -85,14 +98,44 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <label for="nama_terlapor">Deskripsi Laporan <span class="text-red">*</span></label>
-                                            <input disabled="disabled" type="text" class="form-control @error('deskripsi_laporan') is-invalid @enderror" id="deskripsi_laporan" name="deskripsi_laporan" value="{{ old('deskripsi_laporan')?? ($report->deskripsi_laporan ?? '' )}}" required/>
+                                            <label for="catatan">Catatan <span class="text-red"></span></label>
+                                            <textarea type="text" class="form-control @error('catatan') is-invalid @enderror" id="catatan" name="catatan"/></textarea>
                                             @error('name')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
                                         </div>
+                                        <hr>
+                                        <div class="form-group">
+                                            <div class="table-responsive">
+                                                <table class="table mb30 display dataTable table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Status</th>
+                                                            <th>Note</th>
+                                                            <th>Waktu Dibuat</th>
+                                                        </tr>                    
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach($histories as $history)
+                                                            <tr>
+                                                                <td>{{ucfirst($history->status)}}</td>
+                                                                <td>@if($history->catatan != null)
+                                                                        {{ucfirst($history->catatan)}}
+                                                                    @else
+                                                                        N/A
+                                                                    @endif
+                                                                </td>
+                                                                <td>{{date_format($history->created_at, 'd-m-Y H:i')}}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
                                     </div>
                                     <div class="col-md-4 col-sm-12">
                                         <div class="form-group">
@@ -136,7 +179,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="no_hp_terlapor">No HP <span class="text-red">*</span></label>
-                                            <input disabled="disabled" type="text" class="form-control @error('no_hp_terlapor') is-invalid @enderror" id="no_hp_terlapor" name="no_hp_terlapor" value="{{ old('no_hp_terlapor')?? ($report->no_hp_terlapor ?? '' )}}"/>
+                                            <input disabled="disabled" type="text" class="form-control @error('no_hp_terlapor') is-invalid @enderror" id="no_hp_terlapor" name="no_hp_terlapor" value="{{ old('no_hp_terlapor')?? ($report->no_hp_terlapor ?? 'N/A' )}}"/>
                                             @error('name')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -160,6 +203,12 @@
                                                     <strong>{{ $message }}</strong>
                                                 </span>
                                             @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="alamat">Foto <span class="text-red">*</span></label>
+                                            @if($image != null)
+                                                <center><img src="{{ $image }}" width="70%" height="70%" value="{{ $image }}" ></center>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
