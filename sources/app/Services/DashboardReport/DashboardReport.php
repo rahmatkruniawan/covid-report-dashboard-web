@@ -142,14 +142,14 @@ class DashboardReport
     private function buildProgressContent()
     {
         if (! empty($this->request->input('catatan'))) {
-            $notes = "Berikut catatan dari tim Satgas Covid: <b> {$this->request->input('catatan')} </b>";
+            $notes = "Berikut catatan dari tim Satgas Covid: {$this->request->input('catatan')}";
         } else {
             $notes = '';
         }
 
         $status = strtoupper($this->status);
 
-        $content = $status . $notes;
+        $content = $status . ' ' . $notes;
         return $content;
     }
 }

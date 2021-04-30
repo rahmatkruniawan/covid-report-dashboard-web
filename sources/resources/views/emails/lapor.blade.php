@@ -3,7 +3,7 @@
 <p>Terimakasih atas laporan yang sudah anda sampaikan, kami akan menindaklanjuti proses selanjutnya
 untuk menangani kasus atau masalah tersebut. Berikut kode akses yang dapat anda gunakan 
 dalam proses pencarian laporan yang sudah disampaikan : <br> 
-"KODE LAPORAN {{ $content }}"</p>
+<b>KODE LAPORAN {{ $content }}</b></p>
 
 <p>Selalu jaga kesehatan dan tetap menerapkan protokol kesehatan dimanapun anda berada !</p>
 
