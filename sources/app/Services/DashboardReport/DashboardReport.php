@@ -135,21 +135,36 @@ class DashboardReport
     private function sendEmail()
     {
         $view = 'emails.progress';
-        $content = $this->buildProgressContent();
-        \Mail::to($this->report->email_pelapor)->send(new SendMail($this->report->nama_pelapor, $view, $content));
+        $content = $this->buildContentAccrodingStatus();
+        $notes = $this->buildNotes();
+        \Mail::to($this->report->email_pelapor)->send(new SendMail($this->report->nama_pelapor, $view, $content, $notes));
     }
 
-    private function buildProgressContent()
+    private function buildContentAccrodingStatus()
+    {
+        if ($this->status == 'diproses') {
+            return "Laporan kamu masih dalam proses penanganan. Terimakasih sudah berperan membantu penanganan kasus Covid-19.";
+        }
+
+        if ($this->status == 'dibatalkan') {
+            return "Maaf, laporan kamu tidak kami teruskan penanganannya karena adanya kesalahan dalam informasi dan data yang disampaikan. Silahkan lakukan pelaporan lagi dengan mengisikan data dan informasi yang benar dan tepat, terimakasih.";
+        }
+
+        if ($this->status == 'selesai') {
+            return "Laporan kamu sudah kami tindaklanjuti. Terimakasih sudah berperan membantu penanganan kasus Covid-19.";
+        }
+
+        return;
+    }
+
+    private function buildNotes()
     {
         if (! empty($this->request->input('catatan'))) {
-            $notes = "Berikut catatan dari tim Satgas Covid: {$this->request->input('catatan')}";
+            $notes = "{$this->request->input('catatan')}";
         } else {
             $notes = '';
         }
 
-        $status = strtoupper($this->status);
-
-        $content = $status . ' ' . $notes;
-        return $content;
+        return $notes;
     }
 }
