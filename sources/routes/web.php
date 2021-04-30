@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', 'HomeController@index')->name('home');
     });
 
+    // Report Module
     Route::prefix('report')->group(function() {
         Route::get('/', 'ReportController@index')->name('report');
         Route::post('/', 'ReportController@setReportData');
@@ -34,44 +35,21 @@ Route::middleware('auth')->group(function () {
         Route::post('{id}/detail', 'ReportController@setStatusReport');
     });
 
-    // Security Module
-    Route::prefix('security')->group(function(){
-        Route::get('/', 'HomeController@dashboard')->name('security');
-        Route::prefix('user')->group(function(){
-            Route::middleware('can:user')->group(function(){
-                Route::get('/', 'UserController@index')->name('user');
-                Route::post('/', 'UserController@getData');
-            });
-            Route::middleware('can:user.add')->group(function(){
-                Route::get('add/', 'UserController@form')->name('user.add');
-                Route::post('add/', 'UserController@save');
-            });
-            Route::middleware('can:user.edit')->group(function(){
-                Route::get('edit/{id}', 'UserController@form')->name('user.edit');
-                Route::post('edit/{id}', 'UserController@save');
-            });
-            Route::delete('delete/{id}', 'UserController@destroy')->name('user.delete')->middleware('can:user.delete');
+    // User Module
+    Route::prefix('user')->group(function(){
+        Route::middleware('can:user')->group(function(){
+            Route::get('/', 'UserController@index')->name('user');
+            Route::post('/', 'UserController@getData');
         });
-    });
-
-    // Master Module
-    Route::prefix('master')->group(function(){
-        Route::get('/', 'HomeController@dashboard')->name('master');
-        Route::prefix('city')->group(function(){
-            Route::middleware('can:city')->group(function(){
-                Route::get('/', 'CityController@index')->name('city');
-                Route::post('/', 'CityController@getData');
-            });
-            Route::middleware('can:city.add')->group(function(){
-                Route::get('add/', 'CityController@form')->name('city.add');
-                Route::post('add/', 'CityController@save');
-            });
-            Route::middleware('can:city.edit')->group(function(){
-                Route::get('edit/{id}', 'CityController@form')->name('city.edit');
-                Route::post('edit/{id}', 'CityController@save');
-            });
-            Route::delete('delete/{id}', 'CityController@destroy')->name('city.delete')->middleware('can:city.delete');
+        Route::middleware('can:user.add')->group(function(){
+            Route::get('add/', 'UserController@form')->name('user.add');
+            Route::post('add/', 'UserController@save');
         });
+        Route::middleware('can:user.edit')->group(function(){
+            Route::get('edit/{id}', 'UserController@form')->name('user.edit');
+            Route::post('edit/{id}', 'UserController@save');
+        });
+        Route::delete('delete/{id}', 'UserController@destroy')->name('user.delete')->middleware('can:user.delete');
     });
 });
 

@@ -1,18 +1,9 @@
-@can('security')
-<li class="nav-item dropdown" data-menu="dropdown">
-    <a onclick="window.location.href = this.getAttribute('href')" class="dropdown-toggle nav-link" href="#"><i class="bx bx-cog"></i><span data-i18n="Security Data">Security Data</span></a>
-    <ul class="dropdown-menu">
-        @can('user')
-        <li >
-            <a  class="dropdown-item align-items-center " href="{{route('user')}}"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="User">User</span></a>
-        </li>
-        <li >
-            <a  class="dropdown-item align-items-center " href="{{route('report')}}"><i class="bx bx-right-arrow-alt"></i><span class="menu-item" data-i18n="User">Daftar Laporan</span></a>
-        </li>
-        @endcan
-    </ul>
+<li class="nav-item">
+    <a class="nav-link" href="{{route('user')}}"><i class="bx bx-user"></i><span data-i18n="Data Petugas">Data Petugas</span></a>
 </li>
-@endcan
+<li class="nav-item">
+    <a class="nav-link" href="{{route('report')}}"><i class="bx bx-list-ul"></i><span data-i18n="Daftar Laporan">Daftar Laporan</span></a>
+</li>
 {{-- @can('master')
 <li class="nav-item dropdown" data-menu="dropdown">
     <a onclick="window.location.href = this.getAttribute('href')" class="dropdown-toggle nav-link" href="#"><i class="bx bx-cog"></i><span data-i18n="Master Data">Master Data</span></a>

@@ -9,7 +9,6 @@
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb p-0 mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bx bx-home-alt"></i></a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('home') }}">Breadcrumb</a></li>
                             <li class="breadcrumb-item">Detail Laporan</li>
                         </ol>
                     </div>
@@ -216,7 +215,7 @@
                             </div>
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-info">Update Laporan</button>
-                                <a class="btn btn-outline-danger" href="{{ route('user') }}">Cancel</a>
+                                <a class="btn btn-outline-danger" href="{{ route('user') }}">Batal</a>
                             </div>
                         </div>
                     </div>
