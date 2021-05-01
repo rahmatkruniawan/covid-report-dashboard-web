@@ -1,4 +1,7 @@
 <li class="nav-item">
+    <a class="nav-link" href="{{route('home')}}"><i class="bx bx-desktop"></i><span data-i18n="Dashboard">Dashboard</span></a>
+</li>
+<li class="nav-item">
     <a class="nav-link" href="{{route('user')}}"><i class="bx bx-user"></i><span data-i18n="Data Petugas">Data Petugas</span></a>
 </li>
 <li class="nav-item">

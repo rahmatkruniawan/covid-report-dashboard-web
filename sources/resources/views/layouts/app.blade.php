@@ -37,6 +37,8 @@
     <!-- SweetAlert -->
     <link rel="stylesheet" href="{{ asset('assets') }}/vendors/css/extensions/sweetalert2.min.css">
     <link rel="manifest" href="{{ asset('manifest.json') }}">
+
+    @stack('css')
 </head>
 <body class="horizontal-layout horizontal-menu 2-columns navbar-sticky footer-static" data-open="hover" data-menu="horizontal-menu" data-col="2-columns">    
     <!-- BEGIN: Header-->
@@ -312,6 +314,6 @@
             });
         }
     </script>
-    @yield('js')
+    @stack('js')
 </body>
 </html>

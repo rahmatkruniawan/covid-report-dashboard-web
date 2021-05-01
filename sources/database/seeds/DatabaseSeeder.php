@@ -13,5 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(PortalSeeder::class);
         $this->call(UserSeeder::class);
+        $this->call(KategoriLaporanSeeder::class);
+        $this->call(LaporSeeder::class);
     }
 }
