@@ -51,5 +51,13 @@ Route::middleware('auth')->group(function () {
         });
         Route::delete('delete/{id}', 'UserController@destroy')->name('user.delete')->middleware('can:user.delete');
     });
+
+    // User Module
+    Route::prefix('history')->group(function(){
+        Route::middleware('can:history')->group(function(){
+            Route::get('/', 'HistoryController@index')->name('history');
+            Route::post('/', 'HistoryController@getData');
+        });
+    });
 });
 

@@ -29,19 +29,19 @@ class AuthServiceProvider extends ServiceProvider
             return in_array($user->role, ['Developer']);
         });
         Gate::define('user', function ($user) {
-            return in_array($user->role, ['Developer']);
+            return in_array($user->role, ['Developer','Satgas Covid-19','Relawan']);
         });
         Gate::define('user.add', function ($user) {
-            return in_array($user->role, ['Developer']);
+            return in_array($user->role, ['Developer','Satgas Covid-19']);
         });
         Gate::define('user.edit', function ($user) {
-            return in_array($user->role, ['Developer']);
+            return in_array($user->role, ['Developer','Satgas Covid-19']);
         });
         Gate::define('user.delete', function ($user) {
-            return in_array($user->role, ['Developer']);
+            return in_array($user->role, ['Developer','Satgas Covid-19']);
         });
         Gate::define('user.detail', function ($user) {
-            return in_array($user->role, ['Developer']);
+            return in_array($user->role, ['Developer','Satgas Covid-19']);
         });
 
         Gate::define('master', function ($user) {
@@ -64,19 +64,23 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('laporan', function ($user) {
-            return in_array($user->role, ['Developer']);
+            return in_array($user->role, ['Developer','Satgas Covid-19','Relawan']);
         });
         Gate::define('laporan.add', function ($user) {
-            return in_array($user->role, ['Developer']);
+            return in_array($user->role, ['Developer','Satgas Covid-19','Relawan']);
         });
         Gate::define('laporan.edit', function ($user) {
-            return in_array($user->role, ['Developer']);
+            return in_array($user->role, ['Developer','Satgas Covid-19','Relawan']);
         });
         Gate::define('laporan.delete', function ($user) {
-            return in_array($user->role, ['Developer']);
+            return in_array($user->role, ['Developer','Satgas Covid-19','Relawan']);
         });
         Gate::define('laporan.detail', function ($user) {
-            return in_array($user->role, ['Developer']);
+            return in_array($user->role, ['Developer','Satgas Covid-19','Relawan']);
+        });
+
+        Gate::define('history', function ($user) {
+            return in_array($user->role, ['Developer','Satgas Covid-19','Relawan']);
         });
     }
 }

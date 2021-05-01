@@ -49,7 +49,7 @@
 </div>
 @endsection
 
-@section('js')
+@push('js')
 <script type="text/javascript">
 var cityTable;
 
@@ -89,4 +89,4 @@ var cityTable;
     });
 })(jQuery);
 </script>
-@endsection
+@endpush

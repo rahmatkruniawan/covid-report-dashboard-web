@@ -64,7 +64,7 @@
 
 @endsection
 
-@section('js')
+@push('js')
 <script type="text/javascript">
 (function($) {
     'use strict';
@@ -72,4 +72,4 @@
     });
 })(jQuery);
 </script>
-@endsection
+@endpush

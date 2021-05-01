@@ -9,7 +9,7 @@
                     <div class="breadcrumb-wrapper col-12">
                         <ol class="breadcrumb p-0 mb-0">
                             <li class="breadcrumb-item"><a href="{{ route('home') }}"><i class="bx bx-home-alt"></i></a></li>
-                            <li class="breadcrumb-item">Data Petugas</li>
+                            <li class="breadcrumb-item">Riwayat Laporan</li>
                         </ol>
                     </div>
                 </div>
@@ -19,24 +19,25 @@
     <div class="content-body">
         <div class="row">
             <div class="col-12">
-                <a class="btn btn-primary mb-1" title="Data Petugas" href="{{ route('user') }}"><i class="bx bx-table"></i> Data Petugas</a>
-                <a class="btn btn-outline-secondary mb-1" title="Registrasi Petugas" href="{{ route('user.add') }}"><i class="bx bx-plus"></i> Registrasi Petugas</a>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Data Petugas</h3>
+                        <h3 class="card-title">Riwayat Laporan</h3>
                     </div>
                     <div class="card-body">
-                        <table id="userTable" class="table table-hover" width="100%">
+                        <table id="reportTable" class="table table-hover" width="100%">
                             <thead>
                                 <tr>
-                                    <th width="10%">Action</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Role</th>
+                                    <th>Tanggal Aksi</th>
+                                    <th>Kode Laporan</th>
+                                    <th>Kategori</th>
+                                    <th>Status</th>
+                                    <th>Catatan</th>
+                                    <th>Oleh</th>
+                                    <th width="5%">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,39 +53,42 @@
 
 @push('js')
 <script type="text/javascript">
-var userTable;
+var reportTable;
 
 (function($) {
     'use strict';
     $(document).ready(function() {
-        userTable = $('#userTable').DataTable({
+        reportTable = $('#reportTable').DataTable({
             iDisplayLength: 10,
             processing: true,
             serverSide: true,
             stateSave: true,
             scrollX: true,
             ajax: {
-                url: "{{ route('user') }}",
+                url: "{{ route('history') }}",
                 dataType: "json",
                 type: "POST",
                 data: function(d) {
                     d._token = "{{csrf_token()}}";
                 }
             },
-            columnDefs: [{
-                searchable: false,
-                orderable: false,
-                targets: 0
-            }],
-            order:[[1,'desc']],
+            // columnDefs: [{
+            //     searchable: false,
+            //     orderable: false,
+            //     targets: 0
+            // }],
+            order:[[0,'desc']],
             columns: [
+                { data: 'tanggal'},
+                { data: 'kode_lapor'},
+                { data: 'nama_kategori_laporan'},
+                { data: 'status'},
+                { data: 'catatan'},
+                { data: 'oleh'},
                 {
                     data: 'action',
                     orderable: false,
                 },
-                { data: 'user_name'},
-                { data: 'email'},
-                { data: 'role'},
             ],
         })
         .on('xhr.dt', function (e, settings, json, xhr) {});
