@@ -16,7 +16,7 @@ class SendMail extends Mailable
      *
      * @return void
      */
-    public function __construct($name, $view, $content, $notes = '')
+    public function __construct($name, $view, $content, $notes = null)
     {
         $this->name = $name;
         $this->view = $view;
