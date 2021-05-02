@@ -1,8 +1,14 @@
 <li class="nav-item">
+    <a class="nav-link" href="{{route('home')}}"><i class="bx bx-desktop"></i><span data-i18n="Dashboard">Dashboard</span></a>
+</li>
+<li class="nav-item">
     <a class="nav-link" href="{{route('user')}}"><i class="bx bx-user"></i><span data-i18n="Data Petugas">Data Petugas</span></a>
 </li>
 <li class="nav-item">
     <a class="nav-link" href="{{route('report')}}"><i class="bx bx-list-ul"></i><span data-i18n="Daftar Laporan">Daftar Laporan</span></a>
+</li>
+<li class="nav-item">
+    <a class="nav-link" href="{{route('history')}}"><i class="bx bx-list-ul"></i><span data-i18n="Daftar Laporan">Riwayat Laporan</span></a>
 </li>
 {{-- @can('master')
 <li class="nav-item dropdown" data-menu="dropdown">

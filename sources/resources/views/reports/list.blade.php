@@ -52,7 +52,7 @@
 </div>
 @endsection
 
-@section('js')
+@push('js')
 <script type="text/javascript">
 var reportTable;
 
@@ -98,4 +98,4 @@ var reportTable;
     });
 })(jQuery);
 </script>
-@endsection
+@endpush
