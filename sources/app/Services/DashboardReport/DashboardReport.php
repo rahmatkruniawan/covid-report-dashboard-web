@@ -40,7 +40,7 @@ class DashboardReport
         return $this->data_tables->of($this->getReportLists())
             ->addcolumn('action', function($row) use ($request) {
                 return
-                    '<a data-toggle="tooltip" title="Edit" href="'.route('report.detail',['id'=>$row->id]).'"><i class="bx bx-edit"></i></a>';
+                    '<a data-toggle="tooltip" title="Detail" href="'.route('report.detail',['id'=>$row->id]).'"><i class="bx bx-box"></i></a>';
             })
             ->toJson();
     }
